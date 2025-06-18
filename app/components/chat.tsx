@@ -58,7 +58,7 @@ export const ChatWindow: FC<ChatWindowProps> = ({
   useEffect(() => {
     if (!currentUserId) return;
     
-    socketRef.current = io('http://localhost:5000', {
+    socketRef.current = io('https://chatapp-backend-8.onrender.com', {
       transports: ['websocket'],
       reconnection: true,
       reconnectionAttempts: 5,
@@ -132,7 +132,7 @@ export const ChatWindow: FC<ChatWindowProps> = ({
     
     const fetchInitialMessages = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/messages?userId=${getUserId(selectedUser)}&currentUserId=${currentUserId}`);
+        const res = await fetch(`https://chatapp-backend-8.onrender.com/api/messages?userId=${getUserId(selectedUser)}&currentUserId=${currentUserId}`);
         const messages = await res.json();
         setMessagesByUser(prev => ({
           ...prev,
@@ -156,7 +156,7 @@ export const ChatWindow: FC<ChatWindowProps> = ({
   useEffect(() => {
     const fetchUser = async () => {
       // console.log('Fetching user for userId:', currentUserId);
-      const res = await fetch(`http://localhost:5000/api/users/${currentUserId}`);
+      const res = await fetch(`https://chatapp-backend-8.onrender.com/api/users/${currentUserId}`);
       // console.log('User response status:', res.status);
       const data = await res.json();
       if (res.ok) setCurrentUser(data);
@@ -168,7 +168,7 @@ export const ChatWindow: FC<ChatWindowProps> = ({
   const fetchChatUsers = async () => {
     try {
       // console.log('Fetching chat users for userId:', currentUserId);
-      const res = await fetch(`http://localhost:5000/api/users/chat-users?userId=${currentUserId}`);
+      const res = await fetch(`https://chatapp-backend-8.onrender.com/api/users/chat-users?userId=${currentUserId}`);
       const data = await res.json();
       if (res.ok) setChatUsers(data);
     } catch (error) {
@@ -196,7 +196,7 @@ export const ChatWindow: FC<ChatWindowProps> = ({
     };
 
     try {
-      const res = await fetch('http://localhost:5000/api/messages', {
+      const res = await fetch('https://chatapp-backend-8.onrender.com/api/messages', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(messageData),
@@ -234,7 +234,7 @@ export const ChatWindow: FC<ChatWindowProps> = ({
     if (!selectedUser || !currentUserId) return;
     
     try {
-      const res = await fetch('http://localhost:5000/api/messages/clear', {
+      const res = await fetch('https://chatapp-backend-8.onrender.com/api/messages/clear', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -263,7 +263,7 @@ export const ChatWindow: FC<ChatWindowProps> = ({
     if (!selectedUser || !currentUserId) return;
   
     try {
-      const res = await fetch('http://localhost:5000/api/users/remove-chat', {
+      const res = await fetch('https://chatapp-backend-8.onrender.com/api/users/remove-chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
