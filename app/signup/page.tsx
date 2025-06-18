@@ -6,32 +6,22 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle
+} from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Loader2, User, Mail, Lock } from "lucide-react"
 
 export default function SignupPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
-
   const router = useRouter()
 
-  async function signup(name: string, email: string, password: string) {
-    try {
-      const res = await fetch("https://chatapp-backend-8.onrender.com/api/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password }),
-      })
-
-      const result = await res.json()
-      return result
-    } catch (err) {
-      return { success: false, error: "Network error" }
-    }
-  }
-
-  // ✅ Added this function
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setIsLoading(true)
@@ -42,12 +32,24 @@ export default function SignupPage() {
     const email = formData.get("email") as string
     const password = formData.get("password") as string
 
-    const result = await signup(name, email, password)
+    try {
+      const res = await fetch("https://chatapp-backend-8.onrender.com/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+        credentials: "include", // for cookie-based JWT
+      })
 
-    if (result.success) {
-      router.push("/dashboard")
-    } else {
-      setError(result.error || "Signup failed")
+      const result = await res.json()
+
+      if (result && result.token) {
+        router.push(`/${result.id}/dashboard`)
+      } else {
+        setError(result.error || "Signup failed")
+      }
+    } catch (err) {
+      setError("Network error")
+    } finally {
       setIsLoading(false)
     }
   }
@@ -57,7 +59,7 @@ export default function SignupPage() {
       <Card className="w-full max-w-md bg-white border-0">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center text-black">Create an account</CardTitle>
-          <CardDescription className="text-center text-black">Enter your details below to create your account</CardDescription>
+          <CardDescription className="text-center text-black">Enter your details below</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
