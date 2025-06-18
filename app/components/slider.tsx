@@ -52,7 +52,7 @@ export const Sidebar: FC<SidebarProps> = ({
 
   const fetchChatUsers = async () => {
     try {
-      const response = await fetch(`https://chatapp-backend-8.onrender.com/api/users/chat-users?userId=${currentUserId}`);
+      const response = await fetch(`https://chatapp-backend-nq57.onrender.com/api/users/chat-users?userId=${currentUserId}`);
       if (response.ok) {
         const data = await response.json();
         setChatUsers(data);
@@ -90,7 +90,7 @@ export const Sidebar: FC<SidebarProps> = ({
 
     setLoading(true);
     try {
-      const response = await fetch(`https://chatapp-backend-8.onrender.com/api/users/search?query=${encodeURIComponent(query.trim())}`);
+      const response = await fetch(`https://chatapp-backend-nq57.onrender.com/api/users/search?query=${encodeURIComponent(query.trim())}`);
       if (response.ok) {
         const data = await response.json();
         setUsers(data);
@@ -110,7 +110,7 @@ export const Sidebar: FC<SidebarProps> = ({
   const addUserToChat = async (targetUserId: string) => {
     setAddingUserId(targetUserId);
     try {
-      const response = await fetch("https://chatapp-backend-8.onrender.com/api/users/add-chat", {
+      const response = await fetch("https://chatapp-backend-nq57.onrender.com/api/users/add-chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -154,7 +154,7 @@ export const Sidebar: FC<SidebarProps> = ({
   const removeUserFromChat = async (targetUserId: string) => {
     setDeletingUserId(targetUserId);
     try {
-      const response = await fetch("https://chatapp-backend-8.onrender.com/api/users/remove-chat", {
+      const response = await fetch("https://chatapp-backend-nq57.onrender.com/api/users/remove-chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
