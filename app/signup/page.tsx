@@ -33,7 +33,7 @@ export default function SignupPage() {
     const password = formData.get("password") as string
 
     try {
-      const res = await fetch("https://chatapp-backend-8.onrender.com/api/auth/signup", {
+      const res = await fetch("https://chatapp-backend-nq57.onrender.com/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
